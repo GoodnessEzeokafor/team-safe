@@ -13,9 +13,9 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 # HEROKU
+from decouple import config #heroku
+import dj_database_url #heroku
 
-from decouple import config
-import dj_database_url
 #####################
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,12 +26,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '+c757_o%88r!tuip50d-z0d+6skh06v)ifn81%ubs*m4nqf+rb'
+# SECRET_KEY = config('SECRET_KEY') #heroku
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = config('DEBUG', default=False, cast=bool) #heroku
 
 #Heroku
-ALLOWED_HOSTS = ['map-app.herokuapp.com']
+# ALLOWED_HOSTS = ['map-app.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -149,16 +152,21 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS =(
+    os.path.join(BASE_DIR,'static'),
+)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #heroku
+
 
 # Django_rest
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
+        'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]    
 }
 
 SECURE_SSL_REDIRECT = True
-

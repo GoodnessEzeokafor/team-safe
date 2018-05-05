@@ -1,0 +1,1 @@
+web: gunicorn health_meet_tech_app.wsgi --log-file -
